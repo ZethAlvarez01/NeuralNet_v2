@@ -42,7 +42,7 @@ public class Neural_layer {
         return 0;
     }
     
-    private double dev_act_f(float x){
+    public double dev_act_f(double x){
          switch(act_f){
             case 0:
                 return x*(1-x);

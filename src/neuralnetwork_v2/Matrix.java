@@ -24,7 +24,7 @@ public class Matrix {
     //Subtraction of matrices DOUBLE - DOUBLE
     public double[][] sub(double[][] a,double[][] b){
         if((a.length != b.length) || (a[0].length != b[0].length)){
-            System.out.println("Error: Matrices with different order");
+            System.out.println("SUB Error: Matrices with different order");
             return null;
         }else{
             double[][] res =new double[a.length][a[0].length];
@@ -66,6 +66,7 @@ public class Matrix {
                 res[i][j]=sum;
             }
         }
+        
         return res;
        }
    }
@@ -85,13 +86,13 @@ public class Matrix {
    
    //Print matrix DOUBLE
    public void print(double[][] a){
-       System.out.println();
        for(int i=0;i<a.length;i++){
            for(int j=0;j<a[i].length;j++){
                System.out.print(a[i][j]+" ");
            }
            System.out.println();
        }
+       System.out.println();
    }
    
 }
