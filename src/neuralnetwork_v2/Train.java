@@ -44,7 +44,7 @@ public class Train {
                 A_global.add(a);
                 x.set(input, a);
             }            
-           
+           /*
             ArrayList<double[][]> delta=new ArrayList<>();
             if(train){
                 for(int l=neural_net.size()-1;l>=0;l--){
@@ -109,24 +109,19 @@ public class Train {
                     /*for(int i=A_global.size()-1;i>=0;i--){
                         op.print(A_global.get(i));
                     }*/
-                    double[][] newA;
-                    if(l==neural_net.size()-1){
-                        newA=A_global.get(l-1);
+                    /*
+                    op.print(neural_net.get(l).w);
+                    op.print(delta.get(0));
+                    if(l-1==-1){
+                        op.print(A_global.get(A_global.size()-1));
                     }else{
-                        newA=A_global.get(A_global.size()-1-l);
+                       op.print(A_global.get(l-1)); 
                     }
                     
-                    double[][] tras=op.transpose(newA);
                     
-                    double[][] dot=op.dot(tras, delta_lr);
-                    
-                    op.print(dot);
-                    op.print(neural_net.get(l).w);
-                    
-                    neural_net.get(l).w=op.sub(neural_net.get(l).w, dot);
                     
                 } 
-            }
+            }*/
             
             System.out.println();
             System.out.println("Salida");

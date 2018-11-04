@@ -22,26 +22,11 @@ public class NeuralNetwork_v2 {
     public static void main(String[] args) {
         ArrayList<Neural_layer> neural_net;
         
-        int[] topology={2,8,5,3};
+        int[] topology={1,5,1,3,2};
         
         Matrix op=new Matrix();
         
-        ArrayList<double[][]> x=new ArrayList<>();
-        ArrayList<double[][]> y=new ArrayList<>();
-        
-        double[][] aux0x={{0,0}};
-        /*double[][] aux1x={{0,1}};
-        double[][] aux2x={{1,0}};
-        double[][] aux3x={{1,1}};*/
-        
-        x.add(aux0x);
-        /*x.add(aux1x);
-        x.add(aux2x);
-        x.add(aux3x);*/
-        
-        double[][] aux0y={{0,0,0}};
-        
-        y.add(aux0y);
+        double[] x={0};
         
         neural_net=create_nn(topology,0);
         
@@ -62,8 +47,8 @@ public class NeuralNetwork_v2 {
                 System.out.println();
             }
             System.out.println();
-        }
-        */
+        }*/
+        
         /*XOR test*/
         /*
         double[][] l1_w={{-6.026713144652567,-4.777204633354563},{6.158038787679284,5.065332844327768}};
@@ -78,11 +63,12 @@ public class NeuralNetwork_v2 {
         neural_net.get(1).w=l2_w;
         neural_net.get(1).b=l2_b;
         */
-        Train train=new Train(neural_net,x,y,0.05,true);
+        
+        /*Train train=new Train(neural_net,x,y,0.05,true);
         train.training();
         
         System.out.println();
-        
+        */
         //Forward pass
         /*
         ArrayList<double[][]> out=new ArrayList<>();
@@ -91,7 +77,15 @@ public class NeuralNetwork_v2 {
         Train eje=new Train(neural_net,out,y,0.5,false);
         eje.training();
         */
+        Implement exe=new Implement(neural_net,x);
+        double[][] output=exe.Implement();
         
-
+        System.out.println("Entrada: ");
+        double[][] xa=new double[1][];
+        xa[0]=x;
+        op.print(xa);
+        System.out.println("Salida: ");
+        op.print(output);
+        
     }
 }
