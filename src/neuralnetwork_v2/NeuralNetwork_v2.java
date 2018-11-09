@@ -22,11 +22,11 @@ public class NeuralNetwork_v2 {
     public static void main(String[] args) {
         ArrayList<Neural_layer> neural_net;
         
-        int[] topology={1,5,1,3,2};
+        int[] topology={2,2,1};
         
         Matrix op=new Matrix();
         
-        double[] x={0};
+        double[] x={0,1};
         
         neural_net=create_nn(topology,0);
         
