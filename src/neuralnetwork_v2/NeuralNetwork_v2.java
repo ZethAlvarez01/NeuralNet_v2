@@ -8,82 +8,58 @@ import java.util.ArrayList;
  */
 public class NeuralNetwork_v2 {
     
-    static ArrayList<Neural_layer> create_nn(int[] topology,int act_f){
-       ArrayList<Neural_layer> nn=new ArrayList<>();
+    static ArrayList<Neural_layer> create_nn(int[] topology,int act_f){         // Crear la nueva red neuronal, recibe la topologia y el tipo de funcion de activacion que va a usar
+       ArrayList<Neural_layer> nn=new ArrayList<>();                            // Arreglo de capas (red completa)
        
-       for(int i=0;i<topology.length-1;i++){
-           Neural_layer l=new Neural_layer(topology[i],topology[i+1],act_f);
-           nn.add(l);
+       for(int i=0;i<topology.length-1;i++){                                    // for del que recorre el arreglo de topologia
+           Neural_layer l=new Neural_layer(topology[i],topology[i+1],act_f);    // Creas una nueva capa con: (numero de neuronas de entrada, numero de salidas, tipo de funcion de activacion) 
+           nn.add(l);                                                           // se añade esa capa a la red completa
        }
        
-       return nn;
+       return nn;                                                               // Se regresa la red completa
     }
 
     public static void main(String[] args) {
-        ArrayList<Neural_layer> neural_net;
+        ArrayList<Neural_layer> neural_net;    // Instancio una nueva red neuronal        
+        int[] topology={2,2,1};                // Topologia de la nueva red     (Input, Hidden layers [n capas], Output)
         
-        int[] topology={2,2,1};
+        Matrix op=new Matrix();                // Mi bonita libreria de operaciones con matrices
         
-        Matrix op=new Matrix();
+        double[] x={0,0};                      // Entrada Input
         
-        double[] x={0,1};
+        neural_net=create_nn(topology,0);      // Creas la nueva red pasandole como parametros (Topologia, tipo de funcion de activacion) 
         
-        neural_net=create_nn(topology,0);
-        
-        /*for(int i=0;i<neural_net.size();i++){
-            System.out.println("Layer "+(i+1));
-            System.out.println(neural_net.get(i).n_conn+" "+neural_net.get(i).n_neuronas);
-            System.out.println("b");
-            for(int j=0;j<neural_net.get(i).b.length;j++){
-                for(int k=0;k<neural_net.get(i).b[0].length;k++){
-                    System.out.println(neural_net.get(i).b[j][k]);
-                }
-            }
-            System.out.println("w");
-            for(int k=0;k<neural_net.get(i).n_conn;k++){
-                for(int j=0;j<neural_net.get(i).n_neuronas;j++){
-                      System.out.print(neural_net.get(i).w[k][j]+"  ");
-                }
-                System.out.println();
-            }
-            System.out.println();
-        }*/
-        
-        /*XOR test*/
-        /*
+        //Pruebas con xor
+        //Asignacion de pesos 
+        //Capa 1
         double[][] l1_w={{-6.026713144652567,-4.777204633354563},{6.158038787679284,5.065332844327768}};
         double[][] l1_b={{-3.5062464713538244,2.3254362447002053}};
         
+        //Capa 2
         double[][] l2_w={{7.620068825646342},{-7.411676355786206}};
         double[][] l2_b={{3.46980173186714}};
         
+        //Le apaso los pesos actualizados
         neural_net.get(0).w=l1_w;
         neural_net.get(0).b=l1_b;
         
         neural_net.get(1).w=l2_w;
         neural_net.get(1).b=l2_b;
-        */
         
-        /*Train train=new Train(neural_net,x,y,0.05,true);
-        train.training();
+        //Implementación 
+  
+        Implement exe=new Implement(neural_net,x);                              // Implementacion paso la red completa y los datos de entrada
+        double[][] output=exe.Implement();                                      // Resultado
         
-        System.out.println();
-        */
-        //Forward pass
-        /*
-        ArrayList<double[][]> out=new ArrayList<>();
-        out.add(x.get(1));
-        
-        Train eje=new Train(neural_net,out,y,0.5,false);
-        eje.training();
-        */
-        Implement exe=new Implement(neural_net,x);
-        double[][] output=exe.Implement();
+        //Imprimo la entrada
         
         System.out.println("Entrada: ");
         double[][] xa=new double[1][];
         xa[0]=x;
         op.print(xa);
+        
+        //Imprimo la salida
+        
         System.out.println("Salida: ");
         op.print(output);
         
