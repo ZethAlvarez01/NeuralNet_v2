@@ -25,7 +25,7 @@ public class NeuralNetwork_v2 {
         
         Matrix op=new Matrix();                // Mi bonita libreria de operaciones con matrices
         
-        double[] x={0,0};                      // Entrada Input
+        double[] x={1,0};                      // Entrada Input
         
         neural_net=create_nn(topology,0);      // Creas la nueva red pasandole como parametros (Topologia, tipo de funcion de activacion) 
         
@@ -45,6 +45,8 @@ public class NeuralNetwork_v2 {
         
         neural_net.get(1).w=l2_w;
         neural_net.get(1).b=l2_b;
+        
+        ////////////////////////
         
         //Implementación 
   
