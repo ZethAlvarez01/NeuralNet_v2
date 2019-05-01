@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author Zeth
  */
 public class NeuralNetwork_v2 {
-    
+
     static ArrayList<Neural_layer> create_nn(int[] topology,int act_f){         // Crear la nueva red neuronal, recibe la topologia y el tipo de funcion de activacion que va a usar
        ArrayList<Neural_layer> nn=new ArrayList<>();                            // Arreglo de capas (red completa)
        
@@ -25,12 +25,13 @@ public class NeuralNetwork_v2 {
         
         Matrix op=new Matrix();                // Mi bonita libreria de operaciones con matrices
         
-        double[] x={1,0};                      // Entrada Input
+        double[] x={300000,300000};                      // Entrada Input
         
         neural_net=create_nn(topology,0);      // Creas la nueva red pasandole como parametros (Topologia, tipo de funcion de activacion) 
         
         //Pruebas con xor
         //Asignacion de pesos 
+        
         //Capa 1
         double[][] l1_w={{-6.026713144652567,-4.777204633354563},{6.158038787679284,5.065332844327768}};
         double[][] l1_b={{-3.5062464713538244,2.3254362447002053}};
