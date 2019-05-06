@@ -12,23 +12,24 @@ public class NeuralNetwork_v2 {
        ArrayList<Neural_layer> nn=new ArrayList<>();                            // Arreglo de capas (red completa)
        
        for(int i=0;i<topology.length-1;i++){                                    // for del que recorre el arreglo de topologia
-           Neural_layer l=new Neural_layer(topology[i],topology[i+1],act_f);    // Creas una nueva capa con: (numero de neuronas de entrada, numero de salidas, tipo de funcion de activacion) 
-           nn.add(l);                                                           // se añade esa capa a la red completa
+           Neural_layer layer=new Neural_layer(topology[i],topology[i+1],act_f);    // Creas una nueva capa con: (numero de neuronas de entrada, numero de salidas, tipo de funcion de activacion) 
+           nn.add(layer);                                                           // se añade esa capa a la red completa
        }
        
        return nn;                                                               // Se regresa la red completa
     }
 
     public static void main(String[] args) {
-        ArrayList<Neural_layer> neural_net;    // Instancio una nueva red neuronal        
-        int[] topology={2,2,1};                // Topologia de la nueva red     (Input, Hidden layers [n capas], Output)
+        ArrayList<Neural_layer> neural_net;                                     // Instancio una nueva red neuronal    
         
-        Matrix op=new Matrix();                // Mi bonita libreria de operaciones con matrices
         
-        double[] x={300000,300000};                      // Entrada Input
+          
+        int[] topology={2,2,1};                                                 // Topologia de la nueva red     (Input, Hidden layers [n capas], Output)
         
-        neural_net=create_nn(topology,0);      // Creas la nueva red pasandole como parametros (Topologia, tipo de funcion de activacion) 
-        
+        Matrix op=new Matrix();                                                 // Mi bonita libreria de operaciones con matrices
+                                                   
+        neural_net=create_nn(topology,0);                                       // Creas la nueva red pasandole como parametros (Topologia, tipo de funcion de activacion) 
+        /*
         //Pruebas con xor
         //Asignacion de pesos 
         
@@ -48,14 +49,15 @@ public class NeuralNetwork_v2 {
         neural_net.get(1).b=l2_b;
         
         ////////////////////////
-        
+        */
         //Implementación 
+        double[] x={0,0};
   
-        Implement exe=new Implement(neural_net,x);                              // Implementacion paso la red completa y los datos de entrada
-        double[][] output=exe.Implement();                                      // Resultado
+        Implement implementacion=new Implement(neural_net);                              // Implementacion paso la red completa y los datos de entrada
+        double[][] output=implementacion.prediction(x);                                      // Resultado
         
         //Imprimo la entrada
-        
+
         System.out.println("Entrada: ");
         double[][] xa=new double[1][];
         xa[0]=x;
@@ -63,8 +65,25 @@ public class NeuralNetwork_v2 {
         
         //Imprimo la salida
         
-        System.out.println("Salida: ");
+        System.out.println("Salida sin entrenar: ");
         op.print(output);
+
         
+        
+        // Fase de entrenamiento
+        Implement entrenamiento=new Implement(neural_net);
+        
+        double[][] set={{0,0},{0,1},{1,0},{1,1}};
+        double[][] target={{0},{1},{1},{0}};
+        
+        for(int i=0;i<2500;i++){
+            int rand=(int)(Math.random()*4);
+            entrenamiento.train(set[rand],target[rand]);
+        }
+
+       System.out.println("Salida con entrenamiento: ");
+       output=entrenamiento.prediction(x);
+       op.print(output);
+       
     }
 }

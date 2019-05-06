@@ -1,11 +1,11 @@
 package neuralnetwork_v2;
 
 public class Neural_layer {
-    int n_conn;                 // Numero de conexiones (Entradas/Inputs)
-    int n_neuronas;             // Numero de neuronas   (Salida/Outputs de la neurona)
-    int act_f;                  // Funcion de activacion
-    double b[][];               // Arreglo de BIAS (Sesgo)
-    double w[][];               // Arreglo de pesos
+    int n_conn;                                                                 // Numero de conexiones (Entradas/Inputs)
+    int n_neuronas;                                                             // Numero de neuronas   (Salida/Outputs de la neurona)
+    int act_f;                                                                  // Funcion de activacion
+    double b[][];                                                               // Arreglo de BIAS (Sesgo)
+    double w[][];                                                               // Arreglo de pesos
     
     public Neural_layer(int n_conn,int n_neuronas,int act_f){                   // Creo una capa de las muchas de la red
         this.n_conn=n_conn;                                                     // Numero de conexiones (Entradas/Inputs)
