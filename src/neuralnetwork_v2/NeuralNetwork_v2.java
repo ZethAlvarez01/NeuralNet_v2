@@ -23,22 +23,33 @@ public class NeuralNetwork_v2 {
         Matrix op=new Matrix();    
         ArrayList<Neural_layer> neural_net;   
           
-        int[] topology={5,3,3,2};    
+        int[] topology={2,2,1};    
         
-        double[] xx={0,0,0,0,0,0,0,0,0,0};
-        
-        double[][] set={{0.7,0.6,0.5,0.5,0.3},{0,1},{1,0},{1,1}};
-        double[][] target={{0.9,0.1},{1},{1},{0}};
+        double[][] set={{0,0},{1,0},{0,1},{1,1}};
+        double[][] target={{0},{1},{1},{0}};
                                                    
         neural_net=create_nn(topology,0);                                       
 
         Implement entrenamiento=new Implement(neural_net);
-        double[][] output;
-        /*
-        System.out.println("Salida sin entrenamiento: (implement-prediccion)");
-        double[][] output=implementacion.prediction(set[0]);                                      
-        op.print(output);
+        double[][] output = null;
         
+        System.out.println("Entradas: ");
+        op.print(set);
+        System.out.println();
+        
+        System.out.println("Salidas esperadas: ");
+        op.print(target);
+        System.out.println();
+        
+        
+        System.out.println("Salida sin entrenamiento: ");
+        for(int j=0;j<4;j++){
+            output=entrenamiento.prediction(set[j]);
+            op.print(output);
+        }                  
+        System.out.println();
+        
+        /*
         System.out.println("Salida sin entrenamiento: (entrenamiento-prediccion)");
         output=entrenamiento.prediction(set[0]);
         op.print(output);
@@ -49,14 +60,19 @@ public class NeuralNetwork_v2 {
 //        System.out.println();
 //        op.print(output);
         
-        
-        for(int i=0;i<2500;i++){
-            entrenamiento.train(set[0],target[0]);
+        for(int i=0;i<5000;i++){
+            for(int j=0;j<4;j++){
+                entrenamiento.train(set[j],target[j]);
+            }           
         }
-
+        
        System.out.println("Salida con entrenamiento: ");
-       output=entrenamiento.prediction(set[0]);
-       op.print(output);
+        for(int j=0;j<4;j++){
+            output=entrenamiento.prediction(set[j]);
+            op.print(output);
+        }
+        System.out.println();
+
         
        
     }
