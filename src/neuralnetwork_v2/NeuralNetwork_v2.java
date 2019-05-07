@@ -23,18 +23,18 @@ public class NeuralNetwork_v2 {
         Matrix op=new Matrix();    
         ArrayList<Neural_layer> neural_net;   
           
-        int[] topology={2,2,1};    
+        int[] topology={5,3,3,2};    
         
         double[] xx={0,0,0,0,0,0,0,0,0,0};
         
-        double[][] set={{0.7,0.6},{0,1},{1,0},{1,1}};
-        double[][] target={{0.9},{1},{1},{0}};
+        double[][] set={{0.7,0.6,0.5,0.5,0.3},{0,1},{1,0},{1,1}};
+        double[][] target={{0.9,0.1},{1},{1},{0}};
                                                    
         neural_net=create_nn(topology,0);                                       
 
-        Implement implementacion=new Implement(neural_net);
         Implement entrenamiento=new Implement(neural_net);
-        
+        double[][] output;
+        /*
         System.out.println("Salida sin entrenamiento: (implement-prediccion)");
         double[][] output=implementacion.prediction(set[0]);                                      
         op.print(output);
@@ -42,12 +42,14 @@ public class NeuralNetwork_v2 {
         System.out.println("Salida sin entrenamiento: (entrenamiento-prediccion)");
         output=entrenamiento.prediction(set[0]);
         op.print(output);
-
-        System.out.println("Salida sin entrenamiento: (entrenamiento-train)");
-        output=entrenamiento.train(set[0], target[0]);
-        op.print(output);
+        */
         
-        /*
+//        System.out.println("Salida sin entrenamiento: (entrenamiento-train)");
+//        output=entrenamiento.train(set[0], target[0]);
+//        System.out.println();
+//        op.print(output);
+        
+        
         for(int i=0;i<2500;i++){
             entrenamiento.train(set[0],target[0]);
         }
@@ -55,7 +57,7 @@ public class NeuralNetwork_v2 {
        System.out.println("Salida con entrenamiento: ");
        output=entrenamiento.prediction(set[0]);
        op.print(output);
-        */
+        
        
     }
 }
