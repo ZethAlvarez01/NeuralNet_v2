@@ -37,7 +37,7 @@ public class Implement {
      public double[][] train(double[] input,double[] target){                                              
         double[][] x=new double[1][];
         x[0]=input;
-        double lr=1;
+        double lr=0.5;
         
         ArrayList<double[][]> hidden_o=new ArrayList<>();
         hidden_o.add(x);

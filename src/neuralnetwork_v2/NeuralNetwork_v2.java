@@ -1,6 +1,7 @@
 package neuralnetwork_v2;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -49,18 +50,7 @@ public class NeuralNetwork_v2 {
         }                  
         System.out.println();
         
-        /*
-        System.out.println("Salida sin entrenamiento: (entrenamiento-prediccion)");
-        output=entrenamiento.prediction(set[0]);
-        op.print(output);
-        */
-        
-//        System.out.println("Salida sin entrenamiento: (entrenamiento-train)");
-//        output=entrenamiento.train(set[0], target[0]);
-//        System.out.println();
-//        op.print(output);
-        
-        for(int i=0;i<5000;i++){
+        for(int i=0;i<50000;i++){
             for(int j=0;j<4;j++){
                 entrenamiento.train(set[j],target[j]);
             }           
@@ -73,6 +63,24 @@ public class NeuralNetwork_v2 {
         }
         System.out.println();
 
+        String en1="Entrada 1";
+        String en2="Entrada 2";
+        
+        double entrada1; 
+        double entrada2;
+        
+        while(true){
+            entrada1=Double.parseDouble(JOptionPane.showInputDialog(en1));
+            entrada2=Double.parseDouble(JOptionPane.showInputDialog(en2));
+            
+            double[][] x={{entrada1,entrada2}};
+            
+            output=entrenamiento.prediction(x[0]);
+            op.print(output);
+            
+        }
+        
+        
         
        
     }
