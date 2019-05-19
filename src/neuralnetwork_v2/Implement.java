@@ -6,14 +6,23 @@ import java.util.Stack;
  *
  * @author Zeth
  */
+
 public class Implement {
     ArrayList<Neural_layer> neural_net=new ArrayList<>();                       // Red neuronal                                            // Salida real para entrenamiento
-    Matrix op=new Matrix();
+    Matrix op=new Matrix();                                                     //Libreria de matrices hecha por yo
     
     
-    public Implement(ArrayList<Neural_layer> neural_net){            // Constructor 
+    public Implement(ArrayList<Neural_layer> neural_net){                       // Constructor 
         this.neural_net=neural_net;
     }
+    
+    /*
+        Paso 1 Algortimo Feedforward 
+        
+        Metodo que se puede usar para prediccion de una serie de valores de
+        entrada hacia la red.
+    
+    */
     
     public double[][] prediction(double[] xi){                                              
         double[][] x=new double[1][];
@@ -31,17 +40,36 @@ public class Implement {
         }     
         
         return x;                                                               // Regresamos la X final 
-                                                                                // (que seria la ultima A convertiva en X por si existieran mas neuronas)
+                                                                                // (que seria la ultima A convertida en X por si existieran mas neuronas)
     }
+    
+    
+    /*
+        Paso 2 Algortimo Backpropagation
+        
+        Metodo que s eusa para entrenar a la red con el algortimo de 
+        backpropagation.
+    
+    */
     
      public double[][] train(double[] input,double[] target){                                              
         double[][] x=new double[1][];
         x[0]=input;
-        double lr=0.5;
+
+        double lr=0.5;                                                          // El ratio de aprendizaje es de 0.5
+
         
         ArrayList<double[][]> hidden_o=new ArrayList<>();
         hidden_o.add(x);
         int k=0;
+        
+        /*
+            Se ejecuta el algortimo Feedforward pero guardando los valores
+            de salida de cada capa.
+            
+            Se guardan en el arrayList 'hidden_o'
+        */
+        
         for(int l=0;l<neural_net.size();l++){                                   
                 double[][] z;    
                 
@@ -55,7 +83,11 @@ public class Implement {
                 k++;
         }     
 
-        //hidden_o.remove(0);
+        /*
+            Arreglos auxiliares para los deltas
+            (errores calculados en cada capa) 
+        */
+        
         double[] delta = null;
         double[][] delta_w;
         double[][] delta_w_h;
@@ -67,59 +99,40 @@ public class Implement {
         
         
         for(int l=neural_net.size()-1;l>=0;l--){
-             
-            
+            /*
+                Calculo del error si se esta en la ultima capa
+            */
             if(l==neural_net.size()-1){
-                
-                //System.out.println("Capa: "+l+"\n");
-                
-                //op.print(hidden_o.get(l+1));
                 delta=new double[hidden_o.get(l+1)[0].length];
                 for(int i=0;i<hidden_o.get(l+1)[0].length;i++){
                     delta[i]=(hidden_o.get(l+1)[0][i]*(1-hidden_o.get(l+1)[0][i]))*(target[i]-hidden_o.get(l+1)[0][i]);
-                    //System.out.print(delta[i]+" ");
-                   //System.out.println(hidden_o.get(l+1)[0][i]*(1-hidden_o.get(l+1)[0][i]));
                 }
-                //System.out.println();
                 
                 double[][] delta_x=new double[1][];
                 delta_x[0]=delta;
                 
-                
-                //op.print(hidden_o.get(l));
-                
                 delta_w=op.scalar(op.dot(op.transpose(delta_x), hidden_o.get(l)),lr);
                 delta_b=op.scalar(delta_x, lr);
-                //System.out.println("delta_w");
-                //op.print(delta_w);
-                //op.print(delta_b);
-                //System.out.println("w");
+
                 w_aux=new double[neural_net.get(l).w.length][neural_net.get(l).w[0].length];
-                w_aux=neural_net.get(l).w;
-                
-                //op.print(w_aux);
+                w_aux=neural_net.get(l).w;              
                 
                 b_aux=new double[neural_net.get(l).b.length][neural_net.get(l).b[0].length];
                 b_aux=neural_net.get(l).b;
                 
                 neural_net.get(l).w=op.add(neural_net.get(l).w, op.transpose(delta_w));
-                
-                //op.print(neural_net.get(l).w);
-                
                 neural_net.get(l).b=op.add(neural_net.get(l).b, delta_b);
-                
-                //System.out.println("\nFin de la capa: "+l+"\n");
+
             }else{
-                //System.out.println("Capa: "+l+"\n");
+                /*
+                    Calculo del error si no es la ultima capa
+                */
                 
-                //System.out.println("vieja w");
-                //op.print(w_aux);
                 double[] s_delta=new double[hidden_o.get(l+1)[0].length];
+                
                 for(int i=0;i<hidden_o.get(l+1)[0].length;i++){
                     s_delta[i]=hidden_o.get(l+1)[0][i]*(1-hidden_o.get(l+1)[0][i]);
-                    //System.out.println(s_delta[i]);
                 }
-                //System.out.println();
                 
                 double[][] delta_x=new double[1][];
                 delta_x[0]=delta;
@@ -138,24 +151,18 @@ public class Implement {
                 w_aux=new double[neural_net.get(l).w.length][neural_net.get(l).w[0].length];
                 w_aux=neural_net.get(l).w;
                 
+                // Formulas para actualizar los nuevos pesos con base al error de la capa siguiente
                 neural_net.get(l).w=op.add(neural_net.get(l).w, op.transpose(delta_w_h));
 
                 double[][] b_aux_h=new double[neural_net.get(l).b.length][neural_net.get(l).b[0].length];
                 b_aux_h=neural_net.get(l).b;
                 
+                // Formulas para actualizar los nuevos bias con base al error de la capa siguiente
                 neural_net.get(l).b=op.add(b_aux_h,delta_b_h);
 
-                
                 b_aux=b_aux_h;
-
-                //System.out.println("\nFin de la capa: "+l);
             }
-            
-            
-            
         }
-
-
         return hidden_o.get(hidden_o.size()-1);                                                                 
     }
     
