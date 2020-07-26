@@ -69,7 +69,7 @@ public class Implement {
  public double[][] train(double[] input,double[] target){                                              
         double[][] x=new double[1][];
         x[0]=input;
-        double lr=0.09;                                                          // El ratio de aprendizaje es de 0.5
+        double lr=0.6;                                                          // El ratio de aprendizaje es de 0.5
         
         ArrayList<double[][]> hidden_o=new ArrayList<>();
         hidden_o.add(x);
@@ -114,11 +114,12 @@ public class Implement {
             /*
                 Calculo del error si se esta en la ultima capa
             */
-            
+            //CAPA L
             if(l==neural_net.size()-1){
                 delta=new double[hidden_o.get(l+1)[0].length];
+
                 for(int i=0;i<hidden_o.get(l+1)[0].length;i++){
-                    delta[i]=(hidden_o.get(l+1)[0][i]*(1-hidden_o.get(l+1)[0][i]))*(target[i]-hidden_o.get(l+1)[0][i]);
+                    delta[i]=(target[i]-hidden_o.get(l+1)[0][i])*(hidden_o.get(l+1)[0][i]*(1-hidden_o.get(l+1)[0][i]));
                 }
                 
                 double[][] delta_x=new double[1][];
@@ -141,6 +142,7 @@ public class Implement {
                 /*
                     Calculo del error si no es la ultima capa
                 */
+                //CAPAS L-n
                 double[] s_delta=new double[hidden_o.get(l+1)[0].length];
                 
                 for(int i=0;i<hidden_o.get(l+1)[0].length;i++){

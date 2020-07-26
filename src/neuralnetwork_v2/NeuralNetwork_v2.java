@@ -15,18 +15,18 @@ public class NeuralNetwork_v2 {
 
     public static void main(String[] args) throws IOException {
         Matrix op=new Matrix();  
-        double entrada[] = {1,0,0,0};
-        double salida[] = {1,1,1};
+        double entrada[] = {1,1};
+        double salida[] = {0};
 
-        double[][] entradas={{0,0,0,0},{0,0,0,1},{0,0,1,0},{0,1,0,0},{1,0,0,0}};
-        double[][] salidas={{0,0,0},{0,1,0},{1,0,0},{0,1,1},{1,1,1}};
+        double[][] entradas={{0,0},{0,1},{1,0},{1,1}};
+        double[][] salidas={{0},{1},{1},{0}};
         
         /* 
             Un arreglo de enteros representa la topologia de nuestra red. 
             Cada posicion del arreglo es una capa en la red y el numero
             representa el numero de neuronas de dichas capas.
         */
-        int[] topology={entrada.length,2,5,3,4,3};                                                 
+        int[] topology={entrada.length,10,10,63,1};                                                 
                                                                                                         
         
         /* 
@@ -60,10 +60,10 @@ public class NeuralNetwork_v2 {
         op.print(Yp);
 
         for(int i=0;i<10000;i++){
-             //System.out.println("Iteracion: "+i);
-             for(int j=0;j<entradas.length;j++){
-                 imp.train(entradas[j],salidas[j]); 
-             }
+            //System.out.println("Iteracion: "+i);
+            for(int j=0;j<entradas.length;j++){
+               imp.train(entradas[j],salidas[j]); 
+            }
         }
         
         Yp = imp.prediction(entrada);
