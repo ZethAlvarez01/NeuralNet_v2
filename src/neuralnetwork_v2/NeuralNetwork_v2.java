@@ -26,7 +26,7 @@ public class NeuralNetwork_v2 {
             Cada posicion del arreglo es una capa en la red y el numero
             representa el numero de neuronas de dichas capas.
         */
-        int[] topology={entrada.length,10,10,63,1};                                                 
+        int[] topology={entrada.length,2,3,1};                                                 
                                                                                                         
         
         /* 
@@ -44,19 +44,13 @@ public class NeuralNetwork_v2 {
             neural_net.add(l);
         }                                    
 
-        for(int i=0;i<neural_net.size();i++){
-            op.print(neural_net.get(i).w);
-            System.out.println();
-            op.print(neural_net.get(i).b);
-            System.out.println();
-        }
         
         //Implementacion para prediccion
         Implement imp=new Implement(neural_net);
         
         //Yp es el resultado de la prediccion
         double[][] Yp = imp.prediction(entrada);
-        System.out.print("\n\nPrediccion SIN entrenamiento: ");
+        System.out.print("Predicción SIN entrenamiento: ");
         op.print(Yp);
 
         for(int i=0;i<10000;i++){
@@ -67,7 +61,7 @@ public class NeuralNetwork_v2 {
         }
         
         Yp = imp.prediction(entrada);
-        System.out.print("Prediccion CON entrenamiento: ");
+        System.out.print("Predicción CON entrenamiento: ");
         op.print(Yp);
             
         
