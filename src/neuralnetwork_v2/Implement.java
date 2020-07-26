@@ -116,7 +116,6 @@ public class Implement {
             */
             
             if(l==neural_net.size()-1){
-                System.out.println("Capa L");
                 delta=new double[hidden_o.get(l+1)[0].length];
                 for(int i=0;i<hidden_o.get(l+1)[0].length;i++){
                     delta[i]=(hidden_o.get(l+1)[0][i]*(1-hidden_o.get(l+1)[0][i]))*(target[i]-hidden_o.get(l+1)[0][i]);
@@ -142,7 +141,6 @@ public class Implement {
                 /*
                     Calculo del error si no es la ultima capa
                 */
-                System.out.println("Capa L-"+l);
                 double[] s_delta=new double[hidden_o.get(l+1)[0].length];
                 
                 for(int i=0;i<hidden_o.get(l+1)[0].length;i++){
