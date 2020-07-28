@@ -15,7 +15,7 @@ public class NeuralNetwork_v2 {
 
     public static void main(String[] args) throws IOException {
         Matrix op=new Matrix();  
-        double entrada[] = {1,1};
+        double entrada[] = {0,1};
         double salida[] = {0};
 
         double[][] entradas={{0,0},{0,1},{1,0},{1,1}};

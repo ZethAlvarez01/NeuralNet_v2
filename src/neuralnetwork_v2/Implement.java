@@ -117,25 +117,37 @@ public class Implement {
             //CAPA L
             if(l==neural_net.size()-1){
                 delta=new double[hidden_o.get(l+1)[0].length];
-
+                
+                // Formula para calcular delta en la Capa L
+                // Derivada de la funcion de coste ( valor predicho menos valor real ) por la derivada de la funcion de activacion
+                // Delta = derivada_funcion_Coste(a[] - y[]) * derivada_funcion_activacion
                 for(int i=0;i<hidden_o.get(l+1)[0].length;i++){
                     delta[i]=(target[i]-hidden_o.get(l+1)[0][i])*(hidden_o.get(l+1)[0][i]*(1-hidden_o.get(l+1)[0][i]));
                 }
                 
+                // Lo paso a un vector columna
                 double[][] delta_x=new double[1][];
                 delta_x[0]=delta;
                 
-                
+                // Calcular nueva W
+                // output_siguiente_transpuesta @ Delta * LR 
                 delta_w=op.scalar(op.dot(op.transpose(hidden_o.get(l)),delta_x),lr);
+                //Calcular nueva B
+                // Delta * LR 
                 delta_b=op.scalar(delta_x, lr);
 
+                // Guardar W actual (W_aux)
                 w_aux=new double[neural_net.get(l).w.length][neural_net.get(l).w[0].length];
                 w_aux=neural_net.get(l).w;              
                 
+                // Guardar B actual
                 b_aux=new double[neural_net.get(l).b.length][neural_net.get(l).b[0].length];
                 b_aux=neural_net.get(l).b;
                 
+                //Sustituir W y B 
+                // Nueva_W  = W_actual + calculo de nueva W
                 neural_net.get(l).w=op.add(neural_net.get(l).w, delta_w);
+                // Nueva_B  = B_actual + calculo de nueva B
                 neural_net.get(l).b=op.add(neural_net.get(l).b, delta_b);
 
             }else{
@@ -145,34 +157,47 @@ public class Implement {
                 //CAPAS L-n
                 double[] s_delta=new double[hidden_o.get(l+1)[0].length];
                 
+                // Formula para calcular delta en la Capa L-n
+                // 1. Derivada de la salida de la capa actual
                 for(int i=0;i<hidden_o.get(l+1)[0].length;i++){
                     s_delta[i]=hidden_o.get(l+1)[0][i]*(1-hidden_o.get(l+1)[0][i]);
                 }
                 
+                // Creamos un vector columna
                 double[][] delta_x=new double[1][];
                 delta_x[0]=delta;
-
+                
+                // 2. Delta @ W_aux_transpuesta
                 double[][] delta_h=op.dot(delta_x, op.transpose(w_aux));
                 
+                // 3. Paso 2 * Paso 1
                 for(int i=0;i<hidden_o.get(l+1)[0].length;i++){
                     delta_h[0][i]=delta_h[0][i]*s_delta[i];
                 }
+                // Fin Calculo de delta Capa L-n
                 
+                 // Calcular nueva W
+                // Output_siguiente_transpuesta @ Delta * LR
                 delta_w_h=op.scalar(op.dot(op.transpose(hidden_o.get(l)),delta_h),lr);
+                //Calcular nueva B
+                // Delta * LR 
                 delta_b_h=op.scalar(delta_h, lr);
 
                 delta=delta_w_h[0];
                 
+                // Guardamos W actual antes de actualizar
                 w_aux=new double[neural_net.get(l).w.length][neural_net.get(l).w[0].length];
                 w_aux=neural_net.get(l).w;
-                
-                // Formulas para actualizar los nuevos pesos con base al error de la capa siguiente
-                neural_net.get(l).w=op.add(neural_net.get(l).w, delta_w_h);
-
+ 
+                //Guardamos B actual
                 double[][] b_aux_h=new double[neural_net.get(l).b.length][neural_net.get(l).b[0].length];
                 b_aux_h=neural_net.get(l).b;
                 
-                // Formulas para actualizar los nuevos bias con base al error de la capa siguiente
+                // Actualizamos W
+                // Nueva_W = W_actual + calculo de nueva W
+                neural_net.get(l).w=op.add(neural_net.get(l).w, delta_w_h);
+                // Actualizamos B
+                // Nueva_B = B_actual + calculo nueva B
                 neural_net.get(l).b=op.add(b_aux_h,delta_b_h);
 
                 b_aux=b_aux_h;
@@ -180,7 +205,13 @@ public class Implement {
         }
         return hidden_o.get(hidden_o.size()-1);                                                                 
     }
-     
+     //Funcion de Coste
+     /*
+ 
+        Yp: 0: Error cuadratico medio
+        Yp: 1: Derivada del error cuadratico medio
+ 
+    */
      public double[] cost_function(double[] yp,double[] yr,int tp){
         double[] cost=new double[yp.length];
         double aux=0;
@@ -212,36 +243,4 @@ public class Implement {
         }
     }
 
-    private double[] cost_fuction(double[] yp, double[] yr, int tp) {
-        double[] cost=new double[yp.length];
-        double aux=0;
-        
-        switch(tp){
-            case 0:
-                for(int i=0;i<yp.length;i++){
-                    cost[i]=Math.pow((yp[i]-yr[i]), 2);
-                }
-                
-                for(double mean : cost){
-                    aux += mean;
-                }
-                
-                cost[0]=aux/cost.length;
-                
-                return cost;
-                
-            case 1:
-                
-                for(int i=0;i<yp.length;i++){
-                    cost[i]=yp[i]-yr[i];
-                }
-                
-                return cost;
-                
-            default:
-                return cost;
-        }
-    }
-    
-    
 }
